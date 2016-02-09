@@ -4,6 +4,7 @@ import com.kk.inject.internal.BindingId;
 import com.kk.inject.internal.Constants;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -49,6 +50,75 @@ public final class Factory {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Singleton operations (for simplified usage)
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Instantiates and registers the specified module class with the singleton factory.
+     *
+     * @param moduleClass
+     *         The module to instantiate. Never {@code null}.
+     */
+    public static synchronized void registerModule(@NotNull final Class<? extends AbstractModule> moduleClass) {
+        singleton().register(moduleClass);
+    }
+
+    /**
+     * Ensures the instance of the requested class or interface with the singleton factory.
+     *
+     * @param clazz
+     *         The requested class or interface. Never {@code null}.
+     * @param parameters
+     *         The parameters to be passed to the constructor. Can be empty (actually only rarely non-empty).
+     * @param <T>
+     *         The type for the strong type check.
+     * @return The instance. Can be {@code null}.
+     */
+    @Nullable
+    public static synchronized <T> T getInstance(@NotNull final Class<T> clazz, final Object... parameters) {
+        return singleton().get(clazz, parameters);
+    }
+
+    /**
+     * Performs the injection on specified object manually with the singleton library.
+     *
+     * @param object
+     *         The object to perform the injection on. Never {@code null}.
+     * @param <T>
+     *         The type of the object.
+     * @return The reference to the injected object itself to be used for call chaining. Never {@code null}.
+     */
+    @NotNull
+    public static synchronized <T> T injectInstance(@NotNull final T object) {
+        return singleton().inject(object);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Module registration
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Instantiates and registers the specified module class.
+     *
+     * @param moduleClass
+     *         The module to instantiate. Never {@code null}.
+     */
+    public synchronized void register(@NotNull final Class<? extends AbstractModule> moduleClass) {
+        try {
+            final Constructor constructor = moduleClass.getConstructor(Factory.class);
+            constructor.newInstance(this);
+        } catch (NoSuchMethodException e) {
+            throw new InjectException(Constants.ERROR_FAILED_TO_REGISTER_MODULE, e);
+        } catch (IllegalAccessException e) {
+            throw new InjectException(Constants.ERROR_FAILED_TO_REGISTER_MODULE, e);
+        } catch (InstantiationException e) {
+            throw new InjectException(Constants.ERROR_FAILED_TO_REGISTER_MODULE, e);
+        } catch (InvocationTargetException e) {
+            throw new InjectException(Constants.ERROR_FAILED_TO_REGISTER_MODULE, e);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Injection
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +156,7 @@ public final class Factory {
      */
     @NotNull
     public synchronized <T> T inject(@NotNull final T object) {
-        inject(object.getClass(), null);
+        inject(object, null);
         return object;
     }
 
@@ -292,7 +362,8 @@ public final class Factory {
      */
     private void inject(@NotNull final Object object, @Nullable final Map<Class, Object> gotObjects) {
         // Fields injection
-        final Field[] fields = object.getClass().getDeclaredFields();
+        final Class<?> clazz = object.getClass();
+        final Field[] fields = clazz.getDeclaredFields();
         for (final Field field : fields) {
             if (field.isAnnotationPresent(Inject.class)) {
                 // Try to resolve the name
@@ -313,10 +384,15 @@ public final class Factory {
                 }
 
                 // First look for the injections in the got classes
+                Object objectToInject;
                 Class fieldClass = field.getType();
-                Object objectToInject = gotObjects.get(fieldClass);
+                if (gotObjects != null) {
+                    objectToInject = gotObjects.get(fieldClass);
+                } else {
+                    objectToInject = null;
+                }
+                // Then try the regular injection
                 if (objectToInject == null) {
-                    // Then try the regular injection
                     objectToInject = getInternal(new BindingId(fieldClass, name, null, annotationClasses));
                 }
 

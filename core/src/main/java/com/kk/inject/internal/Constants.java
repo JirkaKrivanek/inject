@@ -4,7 +4,7 @@ package com.kk.inject.internal;
  * Constant for the injection.
  */
 public final class Constants {
-    public static final String ERROR_MODULE_FACTORY_MISMATCH = "Module can only be registered to single factory";
+    public static final String ERROR_FAILED_TO_REGISTER_MODULE = "Could not register module";
     public static final String ERROR_UNKNOWN_BINDING = "Unknown binding: ";
     public static final String ERROR_INCOMPLETE_BINDING = "Binding is missing implementation for class: %s";
     public static final String ERROR_MISSING_CONSTRUCTOR = "No suitable constructor found in class: %s";
