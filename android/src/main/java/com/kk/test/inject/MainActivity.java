@@ -3,6 +3,7 @@ package com.kk.test.inject;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
 import com.kk.test.inject.model.Service;

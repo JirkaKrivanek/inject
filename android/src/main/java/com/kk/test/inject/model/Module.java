@@ -1,8 +1,6 @@
 package com.kk.test.inject.model;
 
 import com.kk.inject.AbstractModule;
-import com.kk.inject.Factory;
-import com.kk.inject.NotNull;
 import com.kk.test.inject.model.internal.LoginManagerImpl;
 import com.kk.test.inject.model.internal.ServiceImpl;
 
@@ -10,10 +8,6 @@ import com.kk.test.inject.model.internal.ServiceImpl;
  * Injection module.
  */
 public class Module extends AbstractModule {
-
-    public Module(@NotNull final Factory factory) {
-        super(factory);
-    }
 
     @Override
     protected void defineBindings() {

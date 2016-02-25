@@ -232,6 +232,8 @@ public final class Factory {
      */
     @NotNull
     public synchronized <T> T inject(@NotNull final T objectToInject) {
+        mInjectedObjects.clear();
+        mObjectsToInject.clear();
         try {
             mObjectsToInject.add(objectToInject);
             injectAll();

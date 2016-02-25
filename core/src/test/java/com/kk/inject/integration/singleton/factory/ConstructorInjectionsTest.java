@@ -48,7 +48,7 @@ public class ConstructorInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(DefaultConstructorI.class).thenInstantiate(DefaultConstructorIC.class);
+            whenRequestedInstanceOf(DefaultConstructorI.class).thenInstantiate(DefaultConstructorIC.class);
         }
     }
 
@@ -89,7 +89,7 @@ public class ConstructorInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(ParametrizedConstructorI.class).thenInstantiate(ParametrizedConstructorIC.class);
+            whenRequestedInstanceOf(ParametrizedConstructorI.class).thenInstantiate(ParametrizedConstructorIC.class);
         }
     }
 
@@ -131,7 +131,7 @@ public class ConstructorInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(AnnotatedConstructorI.class).thenInstantiate(AnnotatedConstructorIC.class);
+            whenRequestedInstanceOf(AnnotatedConstructorI.class).thenInstantiate(AnnotatedConstructorIC.class);
         }
     }
 

@@ -70,9 +70,9 @@ public class MultipleInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).thenReturn("World");
-            whenInstanceRequested(IUserCI.class).thenInstantiate(UserCI.class);
-            whenInstanceRequested(IGreeterCI.class).thenInstantiate(GreeterCI.class);
+            whenRequestedInstanceOf(String.class).thenReturn("World");
+            whenRequestedInstanceOf(IUserCI.class).thenInstantiate(UserCI.class);
+            whenRequestedInstanceOf(IGreeterCI.class).thenInstantiate(GreeterCI.class);
         }
     }
 
@@ -128,9 +128,9 @@ public class MultipleInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).thenReturn("World");
-            whenInstanceRequested(IUserFI.class).thenInstantiate(UserFI.class);
-            whenInstanceRequested(IGreeterFI.class).thenInstantiate(GreeterFI.class);
+            whenRequestedInstanceOf(String.class).thenReturn("World");
+            whenRequestedInstanceOf(IUserFI.class).thenInstantiate(UserFI.class);
+            whenRequestedInstanceOf(IGreeterFI.class).thenInstantiate(GreeterFI.class);
         }
     }
 
@@ -198,10 +198,10 @@ public class MultipleInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).ifNamed("userName").thenReturn("World");
-            whenInstanceRequested(String.class).ifNamed("greeting").thenReturn("Hello");
-            whenInstanceRequested(IUserMI.class).thenInstantiate(UserMI.class);
-            whenInstanceRequested(IGreeterMI.class).thenInstantiate(GreeterMI.class);
+            whenRequestedInstanceOf(String.class).ifNamed("userName").thenReturn("World");
+            whenRequestedInstanceOf(String.class).ifNamed("greeting").thenReturn("Hello");
+            whenRequestedInstanceOf(IUserMI.class).thenInstantiate(UserMI.class);
+            whenRequestedInstanceOf(IGreeterMI.class).thenInstantiate(GreeterMI.class);
         }
     }
 

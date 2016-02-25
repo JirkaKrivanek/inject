@@ -70,9 +70,9 @@ public class CircularInjectionWithSingletonTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).thenReturn("World");
-            whenInstanceRequested(IUserCIS.class).thenInstantiate(UserCIS.class);
-            whenInstanceRequested(IGreeterCIS.class).singleton().thenInstantiate(GreeterCIS.class);
+            whenRequestedInstanceOf(String.class).thenReturn("World");
+            whenRequestedInstanceOf(IUserCIS.class).thenInstantiate(UserCIS.class);
+            whenRequestedInstanceOf(IGreeterCIS.class).singleton().thenInstantiate(GreeterCIS.class);
         }
     }
 

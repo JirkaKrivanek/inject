@@ -49,7 +49,7 @@ public class SingletonInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(Singleton1I.class).thenInstantiate(Singleton1IC.class);
+            whenRequestedInstanceOf(Singleton1I.class).thenInstantiate(Singleton1IC.class);
         }
     }
 
@@ -102,7 +102,7 @@ public class SingletonInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(Singleton2I.class).thenInstantiate(Singleton2IC.class);
+            whenRequestedInstanceOf(Singleton2I.class).thenInstantiate(Singleton2IC.class);
         }
     }
 
@@ -154,7 +154,7 @@ public class SingletonInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(Singleton3I.class).singleton().thenInstantiate(Singleton3IC.class);
+            whenRequestedInstanceOf(Singleton3I.class).singleton().thenInstantiate(Singleton3IC.class);
         }
     }
 
@@ -206,7 +206,7 @@ public class SingletonInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(Singleton4I.class).thenReturn(new Singleton4IC());
+            whenRequestedInstanceOf(Singleton4I.class).thenReturn(new Singleton4IC());
         }
     }
 

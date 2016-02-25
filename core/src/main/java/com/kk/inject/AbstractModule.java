@@ -25,7 +25,7 @@ public abstract class AbstractModule {
      * @return The builder. Never {@code null}.
      */
     @NotNull
-    protected <T> BindingBuilderManual<T> whenInstanceRequested(@NotNull final Class<T> forClass) {
+    protected <T> BindingBuilderManual<T> whenRequestedInstanceOf(@NotNull final Class<T> forClass) {
         return new BindingBuilderManual<>(mFactory, forClass);
     }
 }

@@ -72,10 +72,10 @@ public final class NamedInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).ifNamed("userName").thenReturn("World");
-            whenInstanceRequested(String.class).ifNamed("greeting").thenReturn("Hello");
-            whenInstanceRequested(IUserC.class).thenInstantiate(UserC.class);
-            whenInstanceRequested(IGreeterC.class).thenInstantiate(GreeterC.class);
+            whenRequestedInstanceOf(String.class).ifNamed("userName").thenReturn("World");
+            whenRequestedInstanceOf(String.class).ifNamed("greeting").thenReturn("Hello");
+            whenRequestedInstanceOf(IUserC.class).thenInstantiate(UserC.class);
+            whenRequestedInstanceOf(IGreeterC.class).thenInstantiate(GreeterC.class);
         }
     }
 
@@ -132,10 +132,10 @@ public final class NamedInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).ifNamed("userName").thenReturn("World");
-            whenInstanceRequested(String.class).ifNamed("greeting").thenReturn("Hello");
-            whenInstanceRequested(IUserF.class).thenInstantiate(UserF.class);
-            whenInstanceRequested(IGreeterF.class).thenInstantiate(GreeterF.class);
+            whenRequestedInstanceOf(String.class).ifNamed("userName").thenReturn("World");
+            whenRequestedInstanceOf(String.class).ifNamed("greeting").thenReturn("Hello");
+            whenRequestedInstanceOf(IUserF.class).thenInstantiate(UserF.class);
+            whenRequestedInstanceOf(IGreeterF.class).thenInstantiate(GreeterF.class);
         }
     }
 
@@ -202,10 +202,10 @@ public final class NamedInjectionsTest {
 
         @Override
         protected void defineBindings() {
-            whenInstanceRequested(String.class).ifNamed("userName").thenReturn("World");
-            whenInstanceRequested(String.class).ifNamed("greeting").thenReturn("Hello");
-            whenInstanceRequested(IUserM.class).thenInstantiate(UserM.class);
-            whenInstanceRequested(IGreeterM.class).thenInstantiate(GreeterM.class);
+            whenRequestedInstanceOf(String.class).ifNamed("userName").thenReturn("World");
+            whenRequestedInstanceOf(String.class).ifNamed("greeting").thenReturn("Hello");
+            whenRequestedInstanceOf(IUserM.class).thenInstantiate(UserM.class);
+            whenRequestedInstanceOf(IGreeterM.class).thenInstantiate(GreeterM.class);
         }
     }
 
