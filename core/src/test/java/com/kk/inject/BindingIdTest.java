@@ -1,66 +1,58 @@
 package com.kk.inject;
 
+import com.kk.inject.integration.singleton.factory.Greeting;
+import com.kk.inject.integration.singleton.factory.UserName;
+
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 
 /**
  * Tests the {@link BindingId} class.
  */
 public final class BindingIdTest {
 
-    private static class C1 {
-
-        @Nullable
-        public Object get() {
-            return null;
-        }
-
-        @NotNull
-        public Object ensure() {
-            return null;
-        }
-    }
+    private static class C1 {}
 
     private static class C2 {}
 
     @Test
     public void constructor() {
-        final BindingId bindingId = new BindingId(C1.class, null, null);
+        final String name = "Hello World!";
+        final Class<? extends Annotation> annotation = UserName.class;
+        final BindingId bindingId = new BindingId(C1.class, name, annotation);
         Assert.assertNotNull(bindingId);
+        Assert.assertSame(name, Whitebox.getInternalState(bindingId, "mName"));
+        Assert.assertSame(annotation, Whitebox.getInternalState(bindingId, "mAnnotation"));
     }
 
     @Test
+    public void toStringTest() {
+        final String name = "Hello World!";
+        final Class<? extends Annotation> annotation = UserName.class;
+        final BindingId bindingId = new BindingId(C1.class, name, annotation);
+        Assert.assertEquals("C1:Hello World!:UserName", bindingId.toString());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
     public void equalsAndHash() {
-        // Prepare
-        Annotation a1 = null;
-        Annotation a2 = null;
-        for (Method m : C1.class.getDeclaredMethods()) {
-            final Annotation[] annotations = m.getDeclaredAnnotations();
-            if (annotations != null && annotations.length > 0) {
-                Annotation annotation = annotations[0];
-                if (a1 == null) {
-                    a1 = annotation;
-                } else if (a2 == null) {
-                    a2 = annotation;
-                } else {
-                    break;
-                }
-            }
-        }
         // All combinations
         final Class<?> classes[] = new Class<?>[]{C1.class, C2.class};
         final String names[] = new String[]{null, "name 1", "name 2", "name 3"};
-        final Annotation annotations[] = new Annotation[]{null, a1, a2};
+        final Class<? extends Annotation> annotations[] = (Class<? extends Annotation>[]) new Class<?>[3];
+        annotations[0] = null;
+        annotations[1] = Greeting.class;
+        annotations[2] = UserName.class;
         final String s = "Hello World";
         for (final Class<?> c1 : classes) {
             for (final Class<?> c2 : classes) {
                 for (final String n1 : names) {
                     for (final String n2 : names) {
-                        for (final Annotation an1 : annotations) {
-                            for (final Annotation an2 : annotations) {
+                        for (final Class<? extends Annotation> an1 : annotations) {
+                            for (final Class<? extends Annotation> an2 : annotations) {
                                 // Prepare binding IDs
                                 final BindingId b1 = new BindingId(c1, n1, an1);
                                 final BindingId b2 = new BindingId(c2, n2, an2);

@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Factory for the dependency injection.
  */
-public final class Factory {
+public class Factory {
 
     @Nullable private static Factory                               sFactory;
     @Nullable private static List<Class<? extends AbstractModule>> sModuleClasses;
@@ -352,7 +352,7 @@ public final class Factory {
                 if (annotation.annotationType().equals(Inject.class)) {
                     continue;
                 }
-                final BindingId bindingId = new BindingId(parameterType, name, annotation);
+                final BindingId bindingId = new BindingId(parameterType, name, annotation.annotationType());
                 final Binder binder = locateBinder(bindingId, false);
                 if (binder != null) {
                     return binder.get();

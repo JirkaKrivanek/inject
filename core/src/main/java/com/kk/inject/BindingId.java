@@ -9,9 +9,9 @@ import java.lang.annotation.Annotation;
  */
 final class BindingId {
 
-    @NotNull private final  Class<?>   mClass;
-    @Nullable private final String     mName;
-    @Nullable private final Annotation mAnnotation;
+    @NotNull private final  Class<?>                    mClass;
+    @Nullable private final String                      mName;
+    @Nullable private final Class<? extends Annotation> mAnnotation;
 
     /**
      * Constructs the binding ID.
@@ -26,7 +26,7 @@ final class BindingId {
      */
     public BindingId(@NotNull final Class<?> clazz,
                      @Nullable final String name,
-                     @Nullable final Annotation annotation) {
+                     @Nullable final Class<? extends Annotation> annotation) {
         mClass = clazz;
         mName = name;
         mAnnotation = annotation;
@@ -105,7 +105,7 @@ final class BindingId {
         }
         if (mAnnotation != null) {
             sb.append(":");
-            sb.append(mAnnotation.getClass().getSimpleName());
+            sb.append(mAnnotation.getSimpleName());
         }
         return sb.toString();
     }

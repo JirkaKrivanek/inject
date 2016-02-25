@@ -54,17 +54,6 @@ class BinderInstantiate<T> extends BinderAbstract<T> {
     }
 
     /**
-     * Retrieves the constructors of the class to be instantiated.
-     *
-     * @return The constructors. Never {@code null}.
-     */
-    @NotNull
-    @SuppressWarnings("unchecked")
-    private Constructor<T>[] getConstructors() {
-        return (Constructor<T>[]) mClassToInstantiate.getDeclaredConstructors();
-    }
-
-    /**
      * Instantiates the class.
      *
      * @param parameters
@@ -73,7 +62,7 @@ class BinderInstantiate<T> extends BinderAbstract<T> {
      */
     private T instantiate(@NotNull final Object... parameters) {
         // Find suitable constructor either the first annotated one (higher priority) as injected or by parameter types
-        final Constructor<T>[] constructors = getConstructors();
+        @SuppressWarnings("unchecked") final Constructor<T>[] constructors = (Constructor<T>[]) mClassToInstantiate.getDeclaredConstructors();
         Constructor<T> injectedConstructor = null;
         Constructor<T> parametersConstructor = null;
         for (final Constructor<T> constructor : constructors) {

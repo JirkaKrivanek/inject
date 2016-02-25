@@ -10,9 +10,9 @@ public final class BindingBuilderManual<T> {
     @NotNull private final Factory  mFactory;
     @NotNull private final Class<?> mForClass;
 
-    @Nullable private String     mName;
-    @Nullable private Annotation mAnnotation;
-    private           boolean    mForceSingleton;
+    @Nullable private String                      mName;
+    @Nullable private Class<? extends Annotation> mAnnotation;
+    private           boolean                     mForceSingleton;
 
     /**
      * Builds the binding for the specified class.
@@ -67,7 +67,7 @@ public final class BindingBuilderManual<T> {
      * @return The builder for chaining calls. Never {@code null}.
      */
     @NotNull
-    public BindingBuilderManual<T> ifAnnotatedWith(@NotNull final Annotation annotation) {
+    public BindingBuilderManual<T> ifAnnotatedWith(@NotNull final Class<? extends Annotation> annotation) {
         mAnnotation = annotation;
         return this;
     }
