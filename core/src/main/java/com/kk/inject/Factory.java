@@ -80,13 +80,7 @@ public class Factory {
                             constructor.setAccessible(false);
                         }
                     }
-                } catch (NoSuchMethodException e) {
-                    throw new InjectException(ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT, e);
-                } catch (InvocationTargetException e) {
-                    throw new InjectException(ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT, e);
-                } catch (InstantiationException e) {
-                    throw new InjectException(ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT, e);
-                } catch (IllegalAccessException e) {
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
                     throw new InjectException(ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT, e);
                 }
                 factory.register(module);
@@ -421,7 +415,7 @@ public class Factory {
     @SuppressWarnings("unchecked")
     private <T> Binder<T> locateBinder(@NotNull final BindingId bindingId, final boolean throwException) {
         final Binder<T> result = mBindings.get(bindingId);
-        if (result == null) {
+        if (result == null && throwException) {
             throw new InjectException(ErrorStrings.NO_BINDER, bindingId.toString());
         }
         return result;
@@ -536,19 +530,11 @@ public class Factory {
                     method.setAccessible(false);
                 }
             }
-        } catch (IllegalAccessException e) {
-            throw new InjectException(e,
-                                      ErrorStrings.FAILED_TO_INJECT_METHOD,
-                                      method.getName(),
-                                      objectToInject.getClass().getName());
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new InjectException(e,
                                       ErrorStrings.FAILED_TO_INJECT_METHOD,
                                       method.getName(),
                                       objectToInject.getClass().getName());
         }
-        // TODO: Test annotated injections into: constructors
-        // TODO: Test annotated injections into: fields
-        // TODO: Test annotated injections into: methods
     }
 }

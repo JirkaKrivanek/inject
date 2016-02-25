@@ -64,6 +64,20 @@ public class UtilsTest {
     }
 
     @Test
+    public void checkParameterTypes_missMatchPrimitiveWithNull() {
+        final Object[] parameters = new Object[]{"Hello", null};
+        final Class<?>[] requiredTypes = new Class<?>[]{String.class, int.class};
+        Assert.assertFalse(Utils.checkParameterTypes(requiredTypes, parameters));
+    }
+
+    @Test
+    public void checkParameterTypes_matchWithNull() {
+        final Object[] parameters = new Object[]{"Hello", null};
+        final Class<?>[] requiredTypes = new Class<?>[]{String.class, StringBuilder.class};
+        Assert.assertTrue(Utils.checkParameterTypes(requiredTypes, parameters));
+    }
+
+    @Test
     public void checkParameterTypes_match() {
         final Object[] parameters = new Object[]{"Hello", new StringBuilder()};
         final Class<?>[] requiredTypes = new Class<?>[]{String.class, StringBuilder.class};

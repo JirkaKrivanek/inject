@@ -6,6 +6,12 @@ package com.kk.inject;
 final class Utils {
 
     /**
+     * Prevent instantiation.
+     */
+    private Utils() {
+    }
+
+    /**
      * Checks whether the parameters match the types.
      *
      * @param requiredTypes
