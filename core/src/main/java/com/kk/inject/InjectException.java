@@ -8,7 +8,7 @@ public final class InjectException extends RuntimeException {
     /**
      * Constructs the exception with the formatted detailed message.
      * <p/>
-     * See {@link String@format} method.
+     * See {@link String#format(String, Object...)} method.
      *
      * @param format
      *         The detailed message format. Never {@code null}.
