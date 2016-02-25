@@ -10,8 +10,6 @@ import com.kk.test.inject.model.Service;
  */
 public class LoginManagerImpl implements LoginManager {
     @Inject
-    private Service mService;
-    @Inject
     @Named("userName")
     private String mUserName;
 
