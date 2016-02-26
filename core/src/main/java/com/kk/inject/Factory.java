@@ -131,6 +131,9 @@ public class Factory {
      * @param <T>
      *         The class type to ensure the type safety by the compiler.
      * @return The ensured instance. Never {@code null}.
+     * @throws InjectException
+     *         When there is a problem with the instance ensuring. It is a runtime exception as such a problem mostly
+     *         signals the clear programming error (like missing suitable constructor).
      */
     @NotNull
     public static synchronized <T> T getInstance(@NotNull final Class<T> clazz, @NotNull final Object... parameters) {
@@ -145,6 +148,9 @@ public class Factory {
      * @param <T>
      *         The class type to ensure the type safety by the compiler.
      * @return The object with injection performed. Never {@code null}.
+     * @throws InjectException
+     *         When there is a problem with the instance ensuring. It is a runtime exception as such a problem mostly
+     *         signals the clear programming error (like missing suitable constructor).
      */
     @NotNull
     public static synchronized <T> T injectInstance(@NotNull final T objectToInject) {
@@ -198,6 +204,9 @@ public class Factory {
      * @param <T>
      *         The class type to ensure the type safety by the compiler.
      * @return The ensured instance. Never {@code null}.
+     * @throws InjectException
+     *         When there is a problem with the instance ensuring. It is a runtime exception as such a problem mostly
+     *         signals the clear programming error (like missing suitable constructor).
      */
     @NotNull
     public synchronized <T> T get(@NotNull final Class<T> clazz, @NotNull final Object... parameters) {
@@ -223,6 +232,9 @@ public class Factory {
      * @param <T>
      *         The class type to ensure the type safety by the compiler.
      * @return The object with injection performed. Never {@code null}.
+     * @throws InjectException
+     *         When there is a problem with the instance ensuring. It is a runtime exception as such a problem mostly
+     *         signals the clear programming error (like missing suitable constructor).
      */
     @NotNull
     public synchronized <T> T inject(@NotNull final T objectToInject) {

@@ -5,18 +5,18 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * Tests the {@link BinderAbstract} class.
+ * Tests the {@link Binder} class.
  */
-public class BinderAbstractTest {
+public class BinderTest {
 
-    private static class BinderAbstractTested extends BinderAbstract {
+    private static class BinderTested extends Binder {
 
-        public BinderAbstractTested(@NotNull final Factory factory) {
+        BinderTested(@NotNull final Factory factory) {
             super(factory);
         }
 
         @Override
-        public Object get(@NotNull final Object... parameters) {
+        Object get(@NotNull final Object... parameters) {
             return null;
         }
     }
@@ -24,7 +24,7 @@ public class BinderAbstractTest {
     @Test
     public void constructor() {
         final Factory factory = Mockito.mock(Factory.class);
-        final BinderAbstract binder = new BinderAbstractTested(factory);
+        final Binder binder = new BinderTested(factory);
         Assert.assertNotNull(binder);
         Assert.assertSame(factory, binder.mFactory);
     }

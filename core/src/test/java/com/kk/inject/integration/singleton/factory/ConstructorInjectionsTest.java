@@ -138,7 +138,7 @@ public class ConstructorInjectionsTest {
     @Test
     public void annotatedConstructor() {
         Factory.registerModule(new AnnotatedConstructorModule());
-        final AnnotatedConstructorI annotatedConstructorI = Factory.getInstance(AnnotatedConstructorI.class, 17);
+        final AnnotatedConstructorI annotatedConstructorI = Factory.getInstance(AnnotatedConstructorI.class);
         annotatedConstructorI.work();
         Assert.assertTrue(((AnnotatedConstructorIC) annotatedConstructorI).mWorked);
     }
