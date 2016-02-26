@@ -1,13 +1,12 @@
 package com.kk.test.inject.model;
 
-import com.kk.inject.AbstractModule;
 import com.kk.test.inject.model.internal.LoginManagerImpl;
 import com.kk.test.inject.model.internal.ServiceImpl;
 
 /**
  * Injection module.
  */
-public class Module extends AbstractModule {
+public class Module extends com.kk.inject.Module {
 
     @Override
     protected void defineBindings() {

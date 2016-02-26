@@ -3,7 +3,7 @@ package com.kk.inject;
 /**
  * The abstract module to be subclassed and used as instances ensurer.
  */
-public abstract class AbstractModule {
+public class Module {
 
     /**
      * Filled in by the factory when registering the module to the factory.
@@ -39,9 +39,17 @@ public abstract class AbstractModule {
     }
 
     /**
-     * Defines the bindings.
+     * Registers the providers by the specified provider object.
+     * <p/>
+     * The provider itself is first injected.
+     *
+     * @param provider
+     *         The provider.
      */
-    protected abstract void defineBindings();
+    protected void addProviderObject(@NotNull Object provider) {
+        mFactory.inject(provider);
+        new BindingBuilderModuleProviders(mFactory, provider).build();
+    }
 
     /**
      * Creates the builder to define the binding.
@@ -53,5 +61,12 @@ public abstract class AbstractModule {
     @NotNull
     protected <T> BindingBuilderManual<T> whenRequestedInstanceOf(@NotNull final Class<T> forClass) {
         return new BindingBuilderManual<>(mFactory, forClass);
+    }
+
+    /**
+     * Defines the bindings.
+     */
+    protected void defineBindings() {
+        // To be implemented by the subclasses
     }
 }

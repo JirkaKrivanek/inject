@@ -1,8 +1,8 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
+import com.kk.inject.Module;
 import com.kk.inject.Named;
 import com.kk.inject.Provides;
 
@@ -33,7 +33,7 @@ public class ModuleProviderInjectionsTest {
         String getUserName();
     }
 
-    public static class SimpleNoParameterProviderM extends AbstractModule {
+    public static class SimpleNoParameterProviderM extends Module {
 
         @Provides
         private SimpleNoParameterProviderUserI getUser() {
@@ -76,7 +76,7 @@ public class ModuleProviderInjectionsTest {
         }
     }
 
-    public static class MultipleNoParameterProvidersM extends AbstractModule {
+    public static class MultipleNoParameterProvidersM extends Module {
 
         @Provides
         private String getUserName() {
@@ -111,7 +111,7 @@ public class ModuleProviderInjectionsTest {
         int getResult();
     }
 
-    public static class SimpleProviderWithSpecifiedParametersM extends AbstractModule {
+    public static class SimpleProviderWithSpecifiedParametersM extends Module {
 
         @Provides
         private SimpleProviderWithSpecifiedParametersI getMultiplication(final int a, final int b) {
@@ -169,7 +169,7 @@ public class ModuleProviderInjectionsTest {
         }
     }
 
-    public static class SimpleProviderWithInjectedParametersM extends AbstractModule {
+    public static class SimpleProviderWithInjectedParametersM extends Module {
 
         @Provides
         private SimpleProviderWithInjectedParametersUserI getUser(final String userName) {
@@ -213,7 +213,7 @@ public class ModuleProviderInjectionsTest {
         }
     }
 
-    public static class NamedProviderM extends AbstractModule {
+    public static class NamedProviderM extends Module {
 
         @Provides
         @Named(NAME_USER_NAME)
@@ -261,7 +261,7 @@ public class ModuleProviderInjectionsTest {
         }
     }
 
-    public static class AnnotatedProviderM extends AbstractModule {
+    public static class AnnotatedProviderM extends Module {
 
         @Provides
         @UserName

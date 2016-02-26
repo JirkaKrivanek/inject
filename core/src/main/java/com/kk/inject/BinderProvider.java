@@ -7,22 +7,24 @@ import java.lang.reflect.Method;
 /**
  * Binding implementation: Module provider.
  */
-class BinderModuleProvider<T> extends Binder<T> {
+class BinderProvider<T> extends Binder<T> {
 
-    @NotNull private final AbstractModule mModule;
-    @NotNull private final Method         mMethod;
+    @NotNull private final Object mObject;
+    @NotNull private final Method mMethod;
 
     /**
      * Constructs the binding.
      *
      * @param factory
      *         The factory which the bindings will belong to. Never {@code null}.
+     * @param object
+     *         The object which implements the method to invoke in order to obtain the instance. Never {@code null}.
      * @param method
      *         The method to invoke in order to obtain the instance. Never {@code null}.
      */
-    BinderModuleProvider(@NotNull final Factory factory, @NotNull AbstractModule module, @NotNull final Method method) {
+    BinderProvider(@NotNull final Factory factory, @NotNull Object object, @NotNull final Method method) {
         super(factory);
-        mModule = module;
+        mObject = object;
         mMethod = method;
     }
 
@@ -60,7 +62,7 @@ class BinderModuleProvider<T> extends Binder<T> {
         if (!Utils.checkParameterTypes(parameterTypes, parameters)) {
             throw new InjectException(ErrorStrings.PROVIDER_PARAMETERS_MISMATCH,
                                       mMethod.getName(),
-                                      mModule.getClass().getName());
+                                      mObject.getClass().getName());
         }
         // Invoke the provider
         return invokeProvider(parameters);
@@ -104,7 +106,7 @@ class BinderModuleProvider<T> extends Binder<T> {
                 mMethod.setAccessible(true);
             }
             try {
-                return (T) mMethod.invoke(mModule, parameters);
+                return (T) mMethod.invoke(mObject, parameters);
             } finally {
                 if (setAccessible) {
                     mMethod.setAccessible(false);
@@ -114,7 +116,7 @@ class BinderModuleProvider<T> extends Binder<T> {
             throw new InjectException(e,
                                       ErrorStrings.FAILED_TO_CALL_PROVIDER,
                                       mMethod.getName(),
-                                      mModule.getClass().getName());
+                                      mObject.getClass().getName());
         }
     }
 }

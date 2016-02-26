@@ -21,6 +21,8 @@ public final class InjectException extends RuntimeException {
 
     /**
      * Constructs the exception with the formatted detailed message and cause.
+     * <p/>
+     * See {@link String#format(String, Object...)} method.
      *
      * @param cause
      *         The cause for this exception. Can be {@code null}.

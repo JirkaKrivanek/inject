@@ -1,8 +1,8 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
+import com.kk.inject.Module;
 import com.kk.inject.Named;
 import com.kk.inject.Provides;
 
@@ -56,7 +56,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class ByteM extends AbstractModule {
+    public static class ByteM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -110,7 +110,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class ShortM extends AbstractModule {
+    public static class ShortM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -164,7 +164,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class IntegerM extends AbstractModule {
+    public static class IntegerM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -218,7 +218,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class LongM extends AbstractModule {
+    public static class LongM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -272,7 +272,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class FloatM extends AbstractModule {
+    public static class FloatM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -326,7 +326,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class DoubleM extends AbstractModule {
+    public static class DoubleM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -380,7 +380,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class BooleanM extends AbstractModule {
+    public static class BooleanM extends Module {
 
         @Provides
         @Named(NAME_OP_A)
@@ -434,7 +434,7 @@ public class PrimitiveTypeInjections {
         }
     }
 
-    public static class CharM extends AbstractModule {
+    public static class CharM extends Module {
 
         @Provides
         @Named(NAME_OP_A)

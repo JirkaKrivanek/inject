@@ -16,7 +16,7 @@ public class BinderTest {
         }
 
         @Override
-        Object get(@NotNull final Object... parameters) {
+        Module get(@NotNull final Object... parameters) {
             return null;
         }
     }

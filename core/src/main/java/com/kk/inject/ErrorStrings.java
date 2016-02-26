@@ -18,6 +18,7 @@ final class ErrorStrings {
     static final String NO_BINDER                             = "No binder for %s";
     static final String FAILED_TO_INJECT_FIELD                = "Failed to inject field %s of class %s";
     static final String FAILED_TO_INJECT_METHOD               = "Failed to inject method %s of class %s";
+    static final String PROVIDER_MUST_HAVE_METHOD             = "Missing or inaccessible method %s on provider %s";
     static final String PROVIDER_MUST_NOT_RETURN_VOID         = "Provider %s of module %s returns void";
     static final String PROVIDER_PARAMETERS_MISMATCH          = "Provider %s of module %s has different parameters than supplied";
     static final String FAILED_TO_CALL_PROVIDER               = "Failed to call the provider method %s on module %s";

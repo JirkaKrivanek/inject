@@ -1,8 +1,8 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
+import com.kk.inject.Module;
 import com.kk.inject.Named;
 
 import org.junit.Assert;
@@ -68,7 +68,7 @@ public final class NamedInjectionsTest {
         }
     }
 
-    public static class ModuleC extends AbstractModule {
+    public static class ModuleC extends Module {
 
         @Override
         protected void defineBindings() {
@@ -128,7 +128,7 @@ public final class NamedInjectionsTest {
         }
     }
 
-    public static class ModuleF extends AbstractModule {
+    public static class ModuleF extends Module {
 
         @Override
         protected void defineBindings() {
@@ -198,7 +198,7 @@ public final class NamedInjectionsTest {
         }
     }
 
-    public static class ModuleM extends AbstractModule {
+    public static class ModuleM extends Module {
 
         @Override
         protected void defineBindings() {

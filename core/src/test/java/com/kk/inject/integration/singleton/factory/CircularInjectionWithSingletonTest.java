@@ -1,8 +1,8 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
+import com.kk.inject.Module;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -66,7 +66,7 @@ public class CircularInjectionWithSingletonTest {
         }
     }
 
-    public static class ModuleCIS extends AbstractModule {
+    public static class ModuleCIS extends Module {
 
         @Override
         protected void defineBindings() {

@@ -10,8 +10,7 @@ import com.kk.test.inject.model.Service;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Inject
-    private Service mService;
+    @Inject private Service mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

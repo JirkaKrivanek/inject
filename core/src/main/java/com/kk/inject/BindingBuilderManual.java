@@ -1,6 +1,7 @@
 package com.kk.inject;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * Builds the binding for the module.
@@ -91,10 +92,43 @@ public final class BindingBuilderManual<T> {
      * @param objectToReturn
      *         The object to return. Never {@code null}.
      */
-    public void thenReturn(final T objectToReturn) {
+    public void thenReturn(@NotNull final T objectToReturn) {
         final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
         final Binder<T> binder = new BinderSingleton<T>(mFactory, objectToReturn);
         mFactory.addBinding(bindingId, binder);
+    }
+
+    /**
+     * Creates the binder which uses the specified provider when binding requested.
+     *
+     * @param provider
+     *         The provider to be used to retrieve the instance.
+     * @param methodName
+     *         The name of the method which performs the providing. Never {@code null}.
+     */
+    public void thenProvide(@NotNull final Object provider, @NotNull String methodName) {
+        final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
+        final Method method;
+        try {
+            method = provider.getClass().getDeclaredMethod(methodName);
+        } catch (NoSuchMethodException e) {
+            throw new InjectException(ErrorStrings.PROVIDER_MUST_HAVE_METHOD,
+                                      methodName,
+                                      provider.getClass().getName());
+        }
+        final Binder<T> binder = new BinderProvider<>(mFactory, provider, method);
+        mFactory.addBinding(bindingId, binder);
+    }
+
+    /**
+     * Creates the binder which uses the specified provider when binding requested.
+     *
+     * @param provider
+     *         The provider to be used to retrieve the instance. The provider MUST implement the method named "get".
+     *         Never {@code null}.
+     */
+    public void thenProvide(@NotNull final Module provider) {
+        thenProvide(provider, "get");
     }
 
     /**
@@ -104,7 +138,7 @@ public final class BindingBuilderManual<T> {
      *         The class to checks for the singleton annotation. Never {@code null}.
      * @return If singleton then {@code true} else {@code false}.
      */
-    private boolean isSingleton(final Class<? extends T> classToInstantiate) {
+    private boolean isSingleton(@NotNull final Class<? extends T> classToInstantiate) {
         return mForceSingleton || mForClass.isAnnotationPresent(Singleton.class) ||
                 classToInstantiate.isAnnotationPresent(Singleton.class);
     }

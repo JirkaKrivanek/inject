@@ -1,8 +1,8 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
+import com.kk.inject.Module;
 import com.kk.inject.Named;
 
 import org.junit.Assert;
@@ -66,7 +66,7 @@ public class MultipleInjectionsTest {
         }
     }
 
-    public static class ModuleCI extends AbstractModule {
+    public static class ModuleCI extends Module {
 
         @Override
         protected void defineBindings() {
@@ -124,7 +124,7 @@ public class MultipleInjectionsTest {
         }
     }
 
-    public static class ModuleFI extends AbstractModule {
+    public static class ModuleFI extends Module {
 
         @Override
         protected void defineBindings() {
@@ -194,7 +194,7 @@ public class MultipleInjectionsTest {
         }
     }
 
-    public static class ModuleMI extends AbstractModule {
+    public static class ModuleMI extends Module {
 
         @Override
         protected void defineBindings() {

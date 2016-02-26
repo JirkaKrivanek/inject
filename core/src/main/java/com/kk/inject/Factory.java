@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class Factory {
 
-    @Nullable private static Factory                               sFactory;
-    @Nullable private static List<Class<? extends AbstractModule>> sModuleClasses;
+    @Nullable private static Factory                       sFactory;
+    @Nullable private static List<Class<? extends Module>> sModuleClasses;
 
     @NotNull private final Map<BindingId, Binder> mBindings;
     @NotNull private final List<Object>           mObjectsToInject;
@@ -50,7 +50,7 @@ public class Factory {
      * @param moduleClass
      *         The class of the module to register. Never {@code null}.
      */
-    public static synchronized void addModuleClass(@NotNull final Class<? extends AbstractModule> moduleClass) {
+    public static synchronized void addModuleClass(@NotNull final Class<? extends Module> moduleClass) {
         if (sModuleClasses == null) {
             sModuleClasses = new ArrayList<>();
         }
@@ -66,10 +66,10 @@ public class Factory {
     public static synchronized Factory createFactory() {
         final Factory factory = new Factory();
         if (sModuleClasses != null) {
-            for (final Class<? extends AbstractModule> moduleClass : sModuleClasses) {
-                AbstractModule module;
+            for (final Class<? extends Module> moduleClass : sModuleClasses) {
+                Module module;
                 try {
-                    final Constructor<? extends AbstractModule> constructor = moduleClass.getConstructor();
+                    final Constructor<? extends Module> constructor = moduleClass.getConstructor();
                     final boolean setAccessible = !constructor.isAccessible();
                     if (setAccessible) {
                         constructor.setAccessible(true);
@@ -82,7 +82,7 @@ public class Factory {
                         }
                     }
                 } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-                    throw new InjectException(ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT, e);
+                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
                 }
                 factory.register(module);
             }
@@ -118,7 +118,7 @@ public class Factory {
      * @param module
      *         The class of the module to register. Never {@code null}.
      */
-    public static synchronized void registerModule(@NotNull final AbstractModule module) {
+    public static synchronized void registerModule(@NotNull final Module module) {
         getFactorySingleton().register(module);
     }
 
@@ -186,7 +186,7 @@ public class Factory {
      * @param module
      *         The class of the module to register. Never {@code null}.
      */
-    public synchronized void register(@NotNull final AbstractModule module) {
+    public synchronized void register(@NotNull final Module module) {
         throwWhenInjecting();
         module.setFactory(this);
         module.defineBindings();
@@ -418,6 +418,7 @@ public class Factory {
         mObjectsToInject = new ArrayList<>();
         mInjectedObjects = new ArrayList<>();
         mInjectionNestCounter = 0;
+        new BindingBuilderManual(this, Factory.class).thenReturn(this);
     }
 
     /**

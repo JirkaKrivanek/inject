@@ -1,6 +1,5 @@
 package com.kk.inject.integration.singleton.factory;
 
-import com.kk.inject.AbstractModule;
 import com.kk.inject.Factory;
 import com.kk.inject.Inject;
 import com.kk.inject.Named;
@@ -43,7 +42,7 @@ public class InjectForeignClass {
         }
     }
 
-    public static class Module extends AbstractModule {
+    public static class Module extends com.kk.inject.Module {
 
         @Override
         protected void defineBindings() {

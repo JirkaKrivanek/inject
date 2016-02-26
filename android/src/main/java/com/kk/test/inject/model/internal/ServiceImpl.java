@@ -9,11 +9,9 @@ import com.kk.test.inject.model.Service;
  * Service implementation.
  */
 public class ServiceImpl implements Service {
-    @Inject
-    private LoginManager mLoginManager;
-    @Inject
-    @Named("greetingPrefix")
-    private String mPrefix;
+
+    @Inject private                          LoginManager mLoginManager;
+    @Inject @Named("greetingPrefix") private String       mPrefix;
 
     @Override
     public String getGreeting() {

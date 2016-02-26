@@ -8,20 +8,20 @@ import java.lang.reflect.Method;
  */
 final class BindingBuilderModuleProviders {
 
-    @NotNull private final Factory        mFactory;
-    @NotNull private final AbstractModule mModule;
+    @NotNull private final Factory mFactory;
+    @NotNull private final Object  mObject;
 
     /**
-     * Constructs the builder of the bindings by the module providers.
+     * Constructs the builder of the bindings by the object providers.
      *
      * @param factory
      *         The factory which the bindings will belong to. Never {@code null}.
-     * @param module
-     *         The module to scan for the provided bindings. Never {@code null}.
+     * @param object
+     *         The object to scan for the provided bindings. Never {@code null}.
      */
-    BindingBuilderModuleProviders(@NotNull final Factory factory, @NotNull final AbstractModule module) {
+    BindingBuilderModuleProviders(@NotNull final Factory factory, @NotNull final Object object) {
         mFactory = factory;
-        mModule = module;
+        mObject = object;
     }
 
     /**
@@ -29,7 +29,7 @@ final class BindingBuilderModuleProviders {
      */
     void build() {
         // Walk through all methods and filter only those annotated as providers
-        final Method[] methods = mModule.getClass().getDeclaredMethods();
+        final Method[] methods = mObject.getClass().getDeclaredMethods();
         for (final Method method : methods) {
             if (method.isAnnotationPresent(Provides.class)) {
                 buildBinder(method);
@@ -53,10 +53,10 @@ final class BindingBuilderModuleProviders {
         if (forClass == null || forClass.equals(Void.TYPE)) {
             throw new InjectException(ErrorStrings.PROVIDER_MUST_NOT_RETURN_VOID,
                                       method.getName(),
-                                      mModule.getClass().getName());
+                                      mObject.getClass().getName());
         }
         // Create the binder object to be assigned to the factory
-        final Binder binder = new BinderModuleProvider(mFactory, mModule, method);
+        final Binder binder = new BinderProvider(mFactory, mObject, method);
         // Retrieve the annotations for further processing
         final Annotation[] annotations = method.getAnnotations();
         // If have some annotations then create multiple bindings otherwise just one

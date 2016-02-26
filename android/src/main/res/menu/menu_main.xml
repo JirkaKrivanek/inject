@@ -1,4 +1,4 @@
 <menu
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.kk.test.inject.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kk.test.inject.MainActivity">
 </menu>
