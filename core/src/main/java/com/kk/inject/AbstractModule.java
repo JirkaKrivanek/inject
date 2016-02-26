@@ -6,11 +6,37 @@ package com.kk.inject;
 public abstract class AbstractModule {
 
     /**
-     * Filled in by the factory when registering the module and cleared out after that immediately.
+     * Filled in by the factory when registering the module to the factory.
      * <p/>
-     * So that the binding builders can use the factory for its operation.
+     * So that the binding builders and the providers can use the factory for its operation too.
      */
-    @Nullable Factory mFactory;
+    @Nullable private Factory mFactory;
+
+    /**
+     * Retrieves the factory.
+     * <p/>
+     * This method is available to all subclasses only.
+     * <p/>
+     * <dl><dt><b>Attention:</b></dt><dd>Please be aware that the factory is null intin the module is registered with
+     * the factory!</dd></dl>
+     *
+     * @return The factory.
+     */
+    protected Factory getFactory() {
+        return mFactory;
+    }
+
+    /**
+     * Sets the factory.
+     * <p/>
+     * This method is only available for the package - so it is internal to prevent misuse by the applications.
+     *
+     * @param factory
+     *         The factory to set. Never {@code null}.
+     */
+    void setFactory(@NotNull final Factory factory) {
+        mFactory = factory;
+    }
 
     /**
      * Defines the bindings.

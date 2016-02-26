@@ -21,6 +21,7 @@ public class Factory {
     @NotNull private final Map<BindingId, Binder> mBindings;
     @NotNull private final List<Object>           mObjectsToInject;
     @NotNull private final List<Object>           mInjectedObjects;
+    private                int                    mInjectionNestCounter;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +174,7 @@ public class Factory {
      * Resets the factory.
      */
     public synchronized void reset() {
+        throwWhenInjecting();
         mBindings.clear();
         mObjectsToInject.clear();
         mInjectedObjects.clear();
@@ -185,13 +187,10 @@ public class Factory {
      *         The class of the module to register. Never {@code null}.
      */
     public synchronized void register(@NotNull final AbstractModule module) {
-        module.mFactory = this;
-        try {
-            module.defineBindings();
-            new BindingBuilderModuleProviders(this, module).build();
-        } finally {
-            module.mFactory = null;
-        }
+        throwWhenInjecting();
+        module.setFactory(this);
+        module.defineBindings();
+        new BindingBuilderModuleProviders(this, module).build();
     }
 
     /**
@@ -212,15 +211,21 @@ public class Factory {
     public synchronized <T> T get(@NotNull final Class<T> clazz, @NotNull final Object... parameters) {
         final BindingId bindingId = new BindingId(clazz, null, null);
         final Binder<T> binder = locateBinder(bindingId, true);
-        mInjectedObjects.clear();
-        mObjectsToInject.clear();
+        if (mInjectionNestCounter <= 0) {
+            mInjectedObjects.clear();
+            mObjectsToInject.clear();
+        }
+        mInjectionNestCounter++;
         try {
             T result = binder.get(parameters);
             injectAll();
             return result;
         } finally {
-            mInjectedObjects.clear();
-            mObjectsToInject.clear();
+            mInjectionNestCounter--;
+            if (mInjectionNestCounter <= 0) {
+                mInjectedObjects.clear();
+                mObjectsToInject.clear();
+            }
         }
     }
 
@@ -238,15 +243,21 @@ public class Factory {
      */
     @NotNull
     public synchronized <T> T inject(@NotNull final T objectToInject) {
-        mInjectedObjects.clear();
-        mObjectsToInject.clear();
+        if (mInjectionNestCounter <= 0) {
+            mInjectedObjects.clear();
+            mObjectsToInject.clear();
+        }
+        mInjectionNestCounter++;
         try {
             mObjectsToInject.add(objectToInject);
             injectAll();
             return objectToInject;
         } finally {
-            mInjectedObjects.clear();
-            mObjectsToInject.clear();
+            mInjectionNestCounter--;
+            if (mInjectionNestCounter <= 0) {
+                mInjectedObjects.clear();
+                mObjectsToInject.clear();
+            }
         }
     }
 
@@ -345,23 +356,15 @@ public class Factory {
         String name = null;
         if (parameterAnnotations != null && parameterAnnotations.length > 0) {
             // Extract name from the annotation (if any)
-            for (final Annotation annotation : parameterAnnotations) {
-                if (annotation.annotationType().equals(Named.class)) {
-                    name = ((Named) annotation).value();
-                }
-            }
+            name = Utils.extractNameFromAnnotations(parameterAnnotations);
             // Go through all other annotations and try to locate the binding for it
             for (final Annotation annotation : parameterAnnotations) {
-                if (annotation.annotationType().equals(Named.class)) {
-                    continue;
-                }
-                if (annotation.annotationType().equals(Inject.class)) {
-                    continue;
-                }
-                final BindingId bindingId = new BindingId(parameterType, name, annotation.annotationType());
-                final Binder binder = locateBinder(bindingId, false);
-                if (binder != null) {
-                    return binder.get();
+                if (Utils.useAnnotationForBinding(annotation)) {
+                    final BindingId bindingId = new BindingId(parameterType, name, annotation.annotationType());
+                    final Binder binder = locateBinder(bindingId, false);
+                    if (binder != null) {
+                        return binder.get();
+                    }
                 }
             }
         }
@@ -410,6 +413,7 @@ public class Factory {
         mBindings = new HashMap<>();
         mObjectsToInject = new ArrayList<>();
         mInjectedObjects = new ArrayList<>();
+        mInjectionNestCounter = 0;
     }
 
     /**
@@ -549,4 +553,15 @@ public class Factory {
                                       objectToInject.getClass().getName());
         }
     }
+
+    /**
+     * If currently injecting then throws exception.
+     */
+    private void throwWhenInjecting() {
+        if (mInjectionNestCounter > 0) {
+            throw new InjectException(ErrorStrings.CANNOT_MANAGER_FACTORY_WHEN_INJECTING);
+        }
+    }
+
+    // TODO: Fully test ALL primitive types on: fields, constructor parameters, setter method parameters and providers
 }

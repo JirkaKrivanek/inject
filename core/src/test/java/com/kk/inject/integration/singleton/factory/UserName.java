@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
  * Denotes the marked object can <b>NEVER</b> be {@code null}.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.PARAMETER, ElementType.FIELD})
-public @interface UserName {
-}
+@Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
+public @interface UserName {}

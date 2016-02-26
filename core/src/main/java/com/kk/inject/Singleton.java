@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
  * Annotation: Singleton.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
-public @interface Singleton {
-}
+@Target({ElementType.TYPE, ElementType.METHOD})
+public @interface Singleton {}

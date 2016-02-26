@@ -127,7 +127,7 @@ class BinderInstantiate<T> extends Binder<T> {
      * @param constructors
      *         The constructors list to locate the suitable constructor with in.
      * @param parameters
-     *         Te parameters list which the constructor shall be located according to. If {@code null} then the NO
+     *         The parameters list which the constructor shall be located according to. If {@code null} then the NO
      *         parameters constructor MUST be present.
      * @return The ensured instance. Never {@code null}.
      * @throws InjectException

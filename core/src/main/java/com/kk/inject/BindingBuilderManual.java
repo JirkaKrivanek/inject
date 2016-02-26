@@ -81,8 +81,8 @@ public final class BindingBuilderManual<T> {
     public void thenInstantiate(@NotNull final Class<? extends T> classToInstantiate) {
         final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
         final boolean singleton = isSingleton(classToInstantiate);
-        final Binder binding = new BinderInstantiate<>(mFactory, classToInstantiate, singleton);
-        mFactory.addBinding(bindingId, binding);
+        final Binder binder = new BinderInstantiate<>(mFactory, classToInstantiate, singleton);
+        mFactory.addBinding(bindingId, binder);
     }
 
     /**
@@ -93,8 +93,8 @@ public final class BindingBuilderManual<T> {
      */
     public void thenReturn(final T objectToReturn) {
         final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
-        final Binder<T> binding = new BinderSingleton<T>(mFactory, objectToReturn);
-        mFactory.addBinding(bindingId, binding);
+        final Binder<T> binder = new BinderSingleton<T>(mFactory, objectToReturn);
+        mFactory.addBinding(bindingId, binder);
     }
 
     /**
