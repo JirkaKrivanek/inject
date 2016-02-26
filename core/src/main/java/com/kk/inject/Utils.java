@@ -52,17 +52,113 @@ final class Utils {
         if (parameter == null) {
             return !requiredType.isPrimitive();
         }
-        if (requiredType.isPrimitive()) {
-            return requiredType.getName().equals("byte") && parameter instanceof Byte ||
-                    requiredType.getName().equals("short") && parameter instanceof Short ||
-                    requiredType.getName().equals("int") && parameter instanceof Integer ||
-                    requiredType.getName().equals("long") && parameter instanceof Long ||
-                    requiredType.getName().equals("float") && parameter instanceof Float ||
-                    requiredType.getName().equals("double") && parameter instanceof Double ||
-                    requiredType.getName().equals("boolean") && parameter instanceof Boolean ||
-                    requiredType.getName().equals("char") && parameter instanceof Character;
+        return checkType(parameter.getClass(), requiredType);
+    }
+
+    /**
+     * Checks whether the type A can be assigned to type B.
+     * <p/>
+     * It handles the primitive types properly.
+     *
+     * @param typeA
+     *         The type A to check. Can be {@code null}.
+     * @param typeB
+     *         The type B to check. Can be {@code null}.
+     * @return If matching then {@code true} else {@code false}.
+     */
+    static boolean checkType(@NotNull final Class<?> typeA, @NotNull final Class<?> typeB) {
+        if (typeA == null || typeB == null) {
+            return false;
         }
-        return requiredType.isAssignableFrom(parameter.getClass());
+        if (typeA.isPrimitive() && typeB.isPrimitive()) {
+            return typeA.getName().equals(typeB.getName());
+        }
+        if (typeA.isPrimitive()) {
+            return typeA.getName().equals("byte") && typeB.equals(Byte.class) ||
+                    typeA.getName().equals("short") && typeB.equals(Short.class) ||
+                    typeA.getName().equals("int") && typeB.equals(Integer.class) ||
+                    typeA.getName().equals("long") && typeB.equals(Long.class) ||
+                    typeA.getName().equals("float") && typeB.equals(Float.class) ||
+                    typeA.getName().equals("double") && typeB.equals(Double.class) ||
+                    typeA.getName().equals("boolean") && typeB.equals(Boolean.class) ||
+                    typeA.getName().equals("char") && typeB.equals(Character.class);
+        }
+        if (typeB.isPrimitive()) {
+            return typeB.getName().equals("byte") && typeA.equals(Byte.class) ||
+                    typeB.getName().equals("short") && typeA.equals(Short.class) ||
+                    typeB.getName().equals("int") && typeA.equals(Integer.class) ||
+                    typeB.getName().equals("long") && typeA.equals(Long.class) ||
+                    typeB.getName().equals("float") && typeA.equals(Float.class) ||
+                    typeB.getName().equals("double") && typeA.equals(Double.class) ||
+                    typeB.getName().equals("boolean") && typeA.equals(Boolean.class) ||
+                    typeB.getName().equals("char") && typeA.equals(Character.class);
+        }
+        return typeB.isAssignableFrom(typeA);
+    }
+
+    /**
+     * Retrieves the primitive equivalent matching to the specified type.
+     *
+     * @param forType
+     *         The type for which the primitive equivalent one shall be located. Can be {@code null}.
+     * @return If any exists then the primitive equivalent type or {@code null}.
+     */
+    @Nullable
+    static Class<?> getPrimitiveEquivalent(@Nullable final Class<?> forType) {
+        if (forType != null) {
+            if (forType.isPrimitive()) {
+                if (forType.getName().equals("byte")) {
+                    return Byte.class;
+                }
+                if (forType.getName().equals("short")) {
+                    return Short.class;
+                }
+                if (forType.getName().equals("int")) {
+                    return Integer.class;
+                }
+                if (forType.getName().equals("long")) {
+                    return Long.class;
+                }
+                if (forType.getName().equals("float")) {
+                    return Float.class;
+                }
+                if (forType.getName().equals("double")) {
+                    return Double.class;
+                }
+                if (forType.getName().equals("boolean")) {
+                    return Boolean.class;
+                }
+                if (forType.getName().equals("char")) {
+                    return Character.class;
+                }
+            } else {
+                if (forType.equals(Byte.class)) {
+                    return byte.class;
+                }
+                if (forType.equals(Short.class)) {
+                    return short.class;
+                }
+                if (forType.equals(Integer.class)) {
+                    return int.class;
+                }
+                if (forType.equals(Long.class)) {
+                    return long.class;
+                }
+                if (forType.equals(Float.class)) {
+                    return float.class;
+                }
+                if (forType.equals(Double.class)) {
+                    return double.class;
+                }
+                if (forType.equals(Boolean.class)) {
+                    return boolean.class;
+                }
+                if (forType.equals(Character.class)) {
+                    return char.class;
+                }
+            }
+        }
+        return null;
     }
 
     /**

@@ -308,6 +308,10 @@ public class Factory {
      */
     void addBinding(@NotNull final BindingId bindingId, @NotNull final Binder binding) {
         mBindings.put(bindingId, binding);
+        final BindingId primitiveEquivalentBindingId = bindingId.getPrimitiveEquivalent();
+        if (primitiveEquivalentBindingId != null) {
+            mBindings.put(primitiveEquivalentBindingId, binding);
+        }
     }
 
     /**
@@ -562,6 +566,4 @@ public class Factory {
             throw new InjectException(ErrorStrings.CANNOT_MANAGER_FACTORY_WHEN_INJECTING);
         }
     }
-
-    // TODO: Fully test ALL primitive types on: fields, constructor parameters, setter method parameters and providers
 }

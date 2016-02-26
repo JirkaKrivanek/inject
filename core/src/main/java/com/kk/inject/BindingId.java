@@ -33,6 +33,19 @@ final class BindingId {
     }
 
     /**
+     * Retrieves the matching primitive type for the class of this binding ID.
+     *
+     * @return If there is any matching primitive equivalent then the new binding ID else {@code null}.
+     */
+    BindingId getPrimitiveEquivalent() {
+        final Class<?> match = Utils.getPrimitiveEquivalent(mClass);
+        if (match != null) {
+            return new BindingId(match, mName, mAnnotation);
+        }
+        return null;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
