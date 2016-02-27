@@ -418,7 +418,7 @@ public class Factory {
         mObjectsToInject = new ArrayList<>();
         mInjectedObjects = new ArrayList<>();
         mInjectionNestCounter = 0;
-        new BindingBuilderManual(this, Factory.class).thenReturn(this);
+        new BindingBuilderManual<>(this, Factory.class).thenReturn(this);
     }
 
     /**

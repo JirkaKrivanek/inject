@@ -2,15 +2,18 @@ package com.kk.inject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Builds the binding for the module.
  */
 public final class BindingBuilderManual<T> {
 
-    @NotNull private final Factory  mFactory;
-    @NotNull private final Class<?> mForClass;
+    @NotNull private final Factory            mFactory;
+    @NotNull private final Class<? extends T> mForClass;
 
+    @NotNull private  List<Class<? extends T>>    mForClasses;
     @Nullable private String                      mName;
     @Nullable private Class<? extends Annotation> mAnnotation;
     private           boolean                     mForceSingleton;
@@ -30,6 +33,22 @@ public final class BindingBuilderManual<T> {
         mName = null;
         mAnnotation = null;
         mForceSingleton = false;
+    }
+
+    /**
+     * Adds more classes for which the resulting binding will be used.
+     *
+     * @param forClass
+     *         The second class. Never {@code null}.
+     * @return The builder for chaining calls. Never {@code null}.
+     */
+    @NotNull
+    public BindingBuilderManual<T> addForClass(@NotNull final Class<? extends T> forClass) {
+        if (mForClasses == null) {
+            mForClasses = new ArrayList<>();
+        }
+        mForClasses.add(forClass);
+        return this;
     }
 
     /**
@@ -80,10 +99,16 @@ public final class BindingBuilderManual<T> {
      *         The class to instantiate. Never {@code null}.
      */
     public void thenInstantiate(@NotNull final Class<? extends T> classToInstantiate) {
-        final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
         final boolean singleton = isSingleton(classToInstantiate);
         final Binder binder = new BinderInstantiate<>(mFactory, classToInstantiate, singleton);
-        mFactory.addBinding(bindingId, binder);
+        final BindingId bindingId1 = new BindingId(mForClass, mName, mAnnotation);
+        mFactory.addBinding(bindingId1, binder);
+        if (mForClasses != null) {
+            for (final Class<? extends T> forClass : mForClasses) {
+                final BindingId bindingId2 = new BindingId(forClass, mName, mAnnotation);
+                mFactory.addBinding(bindingId2, binder);
+            }
+        }
     }
 
     /**
@@ -93,9 +118,15 @@ public final class BindingBuilderManual<T> {
      *         The object to return. Never {@code null}.
      */
     public void thenReturn(@NotNull final T objectToReturn) {
-        final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
-        final Binder<T> binder = new BinderSingleton<T>(mFactory, objectToReturn);
-        mFactory.addBinding(bindingId, binder);
+        final Binder<T> binder = new BinderSingleton<>(mFactory, objectToReturn);
+        final BindingId bindingId1 = new BindingId(mForClass, mName, mAnnotation);
+        mFactory.addBinding(bindingId1, binder);
+        if (mForClasses != null) {
+            for (final Class<? extends T> forClass : mForClasses) {
+                final BindingId bindingId2 = new BindingId(forClass, mName, mAnnotation);
+                mFactory.addBinding(bindingId2, binder);
+            }
+        }
     }
 
     /**
@@ -107,7 +138,6 @@ public final class BindingBuilderManual<T> {
      *         The name of the method which performs the providing. Never {@code null}.
      */
     public void thenProvide(@NotNull final Object provider, @NotNull String methodName) {
-        final BindingId bindingId = new BindingId(mForClass, mName, mAnnotation);
         final Method method;
         try {
             method = provider.getClass().getDeclaredMethod(methodName);
@@ -117,7 +147,14 @@ public final class BindingBuilderManual<T> {
                                       provider.getClass().getName());
         }
         final Binder<T> binder = new BinderProvider<>(mFactory, provider, method);
-        mFactory.addBinding(bindingId, binder);
+        final BindingId bindingId1 = new BindingId(mForClass, mName, mAnnotation);
+        mFactory.addBinding(bindingId1, binder);
+        if (mForClasses != null) {
+            for (final Class<? extends T> forClass : mForClasses) {
+                final BindingId bindingId2 = new BindingId(forClass, mName, mAnnotation);
+                mFactory.addBinding(bindingId2, binder);
+            }
+        }
     }
 
     /**
@@ -139,7 +176,17 @@ public final class BindingBuilderManual<T> {
      * @return If singleton then {@code true} else {@code false}.
      */
     private boolean isSingleton(@NotNull final Class<? extends T> classToInstantiate) {
-        return mForceSingleton || mForClass.isAnnotationPresent(Singleton.class) ||
-                classToInstantiate.isAnnotationPresent(Singleton.class);
+        if (mForceSingleton || mForClass.isAnnotationPresent(Singleton.class) ||
+                classToInstantiate.isAnnotationPresent(Singleton.class)) {
+            return true;
+        }
+        if (mForClasses != null) {
+            for (final Class<? extends T> forClass : mForClasses) {
+                if (forClass.isAnnotationPresent(Singleton.class)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
