@@ -20,7 +20,9 @@ interface User
 {
     String getName();
 }
+```
 
+```java
 class UserImpl implements User
 {
     @Override
@@ -37,7 +39,9 @@ interface User
 {
     String getName();
 }
+```
 
+```java
 @Singleton
 class UserImpl implements User
 {

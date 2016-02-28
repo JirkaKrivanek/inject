@@ -12,3 +12,8 @@ Yet another dependency injection using reflection.
   * [Singleton](doc/singleton.md)
   * [Mocking](doc/mocking.md)
   * [Obfuscation](doc/obfuscation.md)
+* [JavaDoc](doc/JavaDoc/index.html)
+
+## TODOs
+
+- [ ] Merging factories to support multiple libraries from within one factory

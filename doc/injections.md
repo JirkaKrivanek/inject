@@ -110,7 +110,9 @@ public class ServiceImpl implements Service {
         mPassword = passWord;
     }
 }
+```
 
+```java
 class MyModule extends Module
 {
     @Override
@@ -132,11 +134,15 @@ annotations can be used instead to achieve the same effect.
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 public @interface UserName {}
+```
 
+```java
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.FIELD, ElementType.METHOD})
 public @interface Password {}
+```
 
+```java
 public class ServiceImpl implements Service {
     private String mUserName;
     private String mPassword;
@@ -147,7 +153,9 @@ public class ServiceImpl implements Service {
         mPassword = passWord;
     }
 }
+```
 
+```java
 class MyModule extends Module
 {
     @Override

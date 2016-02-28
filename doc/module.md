@@ -11,7 +11,9 @@ interface User
 {
     String getName();
 }
+```
 
+```java
 class UserImpl implements User
 {
     @Override
@@ -90,7 +92,9 @@ class MyProviders
         return new UserImpl();
     }
 }
+```
 
+```java
 class MyModule extends Module
 {
     @Override

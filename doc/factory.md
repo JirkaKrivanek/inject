@@ -89,3 +89,13 @@ public class Service {
 
 The injected factory is exactly that instance which was used for the injection.
 So no factory clash and multiple factories are still supported.
+
+## Merging factories
+
+More complex projects can easily consist of multiple independent libraries delivered
+without the source code.
+
+To be able to use it effectively, the multiple factories can be merged into one other
+factory which then serves instances of all former (merged) factories.
+
+_**This feature is still TBD**_

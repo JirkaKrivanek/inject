@@ -1,6 +1,7 @@
 # Basic concept
 
-The dependency injection here works like in other libraries - perhaps the terminology is a bit different.
+The dependency injection here works like in other similar libraries - perhaps
+the terminology is a bit different.
 
 To incorporate, the application has to:
 
@@ -9,16 +10,22 @@ To incorporate, the application has to:
 1. Define one or more modules providing the bindings
 1. Register those modules with the factory
 1. Instantiate the factory (or use the single factory simplification)
-1. Use the factory to obtain the instances fully injected (whole object tree can be automatically created by single factory request)
+1. Use the factory to obtain the instances fully injected (whole object tree can be automatically
+   created by single factory request)
 
 ## Functionality classes with annotations
+
+Wherever you need to inject any object, just mark the constructor, the method or the field with the
+`@Inject` annotation.
 
 ```java
 interface User
 {
     String getName();
 }
+```
 
+```java
 class UserImpl implements User
 {
     @Override
@@ -26,12 +33,16 @@ class UserImpl implements User
         return "John Doe";
     }
 }
+```
 
+```java
 interface Service
 {
     User getUser();
 }
+```
 
+```java
 class ServiceImpl implements Service
 {
     @Inject
@@ -48,6 +59,14 @@ More details: [Injections](injections.md)
 
 ## Define module
 
+The bindings between interfaces and implementations are defined by modules - so your
+application needs at least one module.
+
+It, however, makes good sense to have more modules:
+
+* To logically separate functional blocks
+* To override real injections with mocked ones for the tests
+
 ```java
 class MyModule extends Module
 {
@@ -62,6 +81,9 @@ class MyModule extends Module
 More details: [Module](module.md)
 
 ## Register module and instantiate object
+
+The module must be registered with the factory which in turn can be asked to produce the instances with
+full injection.
 
 ```java
 public class Main {

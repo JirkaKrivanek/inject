@@ -57,39 +57,6 @@ public class Factory {
         sModuleClasses.add(moduleClass);
     }
 
-    /**
-     * Creates the factory as defined by the methods above.
-     *
-     * @return The factory. Never {@code null}.
-     */
-    @NotNull
-    public static synchronized Factory createFactory() {
-        final Factory factory = new Factory();
-        if (sModuleClasses != null) {
-            for (final Class<? extends Module> moduleClass : sModuleClasses) {
-                Module module;
-                try {
-                    final Constructor<? extends Module> constructor = moduleClass.getConstructor();
-                    final boolean setAccessible = !constructor.isAccessible();
-                    if (setAccessible) {
-                        constructor.setAccessible(true);
-                    }
-                    try {
-                        module = constructor.newInstance();
-                    } finally {
-                        if (setAccessible) {
-                            constructor.setAccessible(false);
-                        }
-                    }
-                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
-                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
-                }
-                factory.register(module);
-            }
-        }
-        return factory;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +68,15 @@ public class Factory {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Retrieves the singleton factory instance.
+     *
+     * @return The singleton factory.
+     */
+    public static synchronized Factory getSingleton() {
+        return getFactorySingleton();
+    }
 
     /**
      * Resets the singleton instance of the factory.
@@ -169,6 +145,39 @@ public class Factory {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Creates the factory as defined by the methods above.
+     *
+     * @return The factory. Never {@code null}.
+     */
+    @NotNull
+    public static synchronized Factory createFactory() {
+        final Factory factory = new Factory();
+        if (sModuleClasses != null) {
+            for (final Class<? extends Module> moduleClass : sModuleClasses) {
+                Module module;
+                try {
+                    final Constructor<? extends Module> constructor = moduleClass.getConstructor();
+                    final boolean setAccessible = !constructor.isAccessible();
+                    if (setAccessible) {
+                        constructor.setAccessible(true);
+                    }
+                    try {
+                        module = constructor.newInstance();
+                    } finally {
+                        if (setAccessible) {
+                            constructor.setAccessible(false);
+                        }
+                    }
+                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
+                }
+                factory.register(module);
+            }
+        }
+        return factory;
+    }
 
     /**
      * Resets the factory.
