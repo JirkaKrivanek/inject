@@ -9,5 +9,6 @@ Yet another dependency injection using reflection.
   * [Factory](doc/factory.md)
   * [Module](doc/module.md)
   * [Injections](doc/injections.md)
-  * [Mocking](doc/mocking.md)
   * [Singleton](doc/singleton.md)
+  * [Mocking](doc/mocking.md)
+  * [Obfuscation](doc/obfuscation.md)

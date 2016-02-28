@@ -5,11 +5,11 @@ The dependency injection here works like in other libraries - perhaps the termin
 To incorporate, the application has to:
 
 1. Code the functionality classes
-2. Annotate the code wherever the dependency injection is needed
-3. Define one or more modules providing the bindings
-4. Register those modules with the factory
-5. Instantiate the factory (or use the single factory simplification)
-6. Use the factory to obtain the instances fully injected (whole object tree can be automatically created by single factory request)
+1. Annotate the code wherever the dependency injection is needed
+1. Define one or more modules providing the bindings
+1. Register those modules with the factory
+1. Instantiate the factory (or use the single factory simplification)
+1. Use the factory to obtain the instances fully injected (whole object tree can be automatically created by single factory request)
 
 ## Functionality classes with annotations
 
