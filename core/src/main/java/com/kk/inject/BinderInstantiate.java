@@ -142,6 +142,7 @@ class BinderInstantiate<T> extends Binder<T> {
             final Class<?>[] parameterTypes = con.getParameterTypes();
             if (Utils.checkParameterTypes(parameterTypes, parameters)) {
                 constructor = con;
+                break;
             }
         }
         // Check have constructor

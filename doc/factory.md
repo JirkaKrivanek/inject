@@ -14,7 +14,7 @@ public class Main {
 }
 ```
 
-### Singleton is factory wide
+**Note:**Singleton is factory wide
 
 The singleton instance is actually single only within one factory instance.
 In other words, each factory has its own set of singletons.
@@ -39,6 +39,26 @@ public class Main {
     }
 }
 ```
+
+## Define bindings directly with the factory
+
+Although it is not too practical, sometimes it can be useful: The binding between the
+interface and its implementation can be defined directly with the factory object:
+
+```java
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Factory.getSingleton().whenRequestedInstanceOf(Context.class).thenReturn(getApplicationContext());
+    }
+}
+```
+
+As shown in the example just above, the Android context, which is otherwise very hard to pass
+everywhere it is needed can be registered for injection in a very easy way.
+
+However, it is recommended to use the modules for registering the bindings - as shown below.
 
 ## Register module classes or instances
 
@@ -79,7 +99,7 @@ public class Main {
 
 ## Factory injection
 
-Factory can be injected too:
+Factory object itself can be injected too:
 
 ```java
 public class Service {

@@ -170,7 +170,13 @@ public class Factory {
                             constructor.setAccessible(false);
                         }
                     }
-                } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                } catch (NoSuchMethodException e) {
+                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
+                } catch (InvocationTargetException e) {
+                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
+                } catch (IllegalAccessException e) {
+                    throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
+                } catch (InstantiationException e) {
                     throw new InjectException(e, ErrorStrings.COULD_NOT_CONSTRUCT_MODULE_OBJECT);
                 }
                 factory.register(module);
@@ -187,6 +193,18 @@ public class Factory {
         mBindings.clear();
         mObjectsToInject.clear();
         mInjectedObjects.clear();
+    }
+
+    /**
+     * Creates the builder to define the single binding out of any module.
+     *
+     * @param forClass
+     *         The class for which the instance is requested. Never {@code null}.
+     * @return The builder. Never {@code null}.
+     */
+    @NotNull
+    public <T> BindingBuilderManual<T> whenRequestedInstanceOf(@NotNull final Class<T> forClass) {
+        return new BindingBuilderManual<>(this, forClass);
     }
 
     /**

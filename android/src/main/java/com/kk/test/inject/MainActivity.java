@@ -5,12 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.kk.inject.Factory;
-import com.kk.inject.Inject;
-import com.kk.test.inject.model.Service;
+import com.kk.inject.testsdk.TestSdkContext;
+import com.kk.inject.testsdk.User;
 
 public class MainActivity extends AppCompatActivity {
-
-    @Inject private Service mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +16,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Factory.injectInstance(this);
         final TextView textView = (TextView) findViewById(R.id.activity_main_greeting);
-        final String greeting = mService.getGreeting();
-        textView.setText(greeting);
+        final User user = TestSdkContext.getFactory().get(User.class, "John Doe");
+        final String introduction = user.introduce();
+        textView.setText(introduction);
     }
 }

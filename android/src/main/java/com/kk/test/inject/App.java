@@ -1,9 +1,9 @@
 package com.kk.test.inject;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.kk.inject.Factory;
-import com.kk.test.inject.model.Module;
+import com.kk.inject.testsdk.TestSdkContext;
 
 /**
  * Android application.
@@ -13,6 +13,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Factory.addModuleClass(Module.class);
+        TestSdkContext.getFactory().whenRequestedInstanceOf(Context.class).thenReturn(getApplicationContext());
     }
 }
