@@ -28,7 +28,18 @@ public class ServiceImpl implements Service {
 }
 ```
 
-All the parameters of the constructor are automatically provided by the same factory.
+All the eventual parameters of the constructor are automatically provided by the same factory.
+
+### Injecting via constructor with specified parameters
+
+Sometimes, it can be useful to ask factory for an instance with the constructor parameters already specified.
+
+To achieve this, simply pass one or more arguments to the `Factory#getInstance()` or `Factory#get()`
+method.
+
+Factory will then try to look for the matching constructor according to the specified
+parameters (ignoring the `@Inject` annotation at all). If no such constructor located
+then the runtime exception will be thrown (clear programming error).
 
 ### Injecting via field
 
@@ -71,7 +82,7 @@ public class ServiceImpl implements Service {
 one parameter only). This is to demonstrate that the injection works on multiple
 parameters too.
 
-### Injection of foreign objects
+### Injection on foreign objects
 
 Factory supports also injection on objects created with traditional `new` operator.
 
@@ -91,13 +102,13 @@ The method injection example above (`setup()`) apparently contains a problem:
 * The injection cannot distinguish which value to inject into which parameter
 * As both of them are of the same type - `String`
 
-This can be solve by one of the ways demonstrated below.
+This can be solved by one of the ways demonstrated below.
 
-This can be useful for injecting the configuration parameters.
+The solution is particularly useful for injecting the configuration parameters (like URLs for instance).
 
 ### Named annotation
 
-The `@Named` annotation can be used to be more specific with the injection.
+The `@Named` annotation can be used to be more specific with the injection when type is ambiguous.
 
 ```java
 public class ServiceImpl implements Service {

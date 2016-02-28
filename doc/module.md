@@ -2,9 +2,9 @@
 
 ## Bindings
 
-Binding is an assignment between the interface and implementation.
+Binding is an assignment between the interface and its implementation.
 
-So ideally the actual Java interface and implementing class:
+So ideally the actual Java interface and its implementing class, like this:
 
 ```java
 interface User
@@ -26,7 +26,7 @@ class UserImpl implements User
 ## Defining bindings
 
 Bindings can be defined in multiple ways:
-* Manually in the module
+* Manually in the module (or directly with the factory)
 * Using `@Provides` annotation in module
 * Using `@Provides` annotation in any other class
 
@@ -106,7 +106,7 @@ class MyModule extends Module
 
 **Note 1:** The provider is also subject of injection when being registered to the factory.
 
-**Note 2:**As with the module providers, also here the provided objects are **NOT** automatically injected with field and method dependencies!
+**Note 2:** As with the module providers, also here the provided objects are **NOT** automatically injected with field and method dependencies!
 
 Use `Factory#inject()` to inject it manually if this is what you need (note that factory can be injected too):
 

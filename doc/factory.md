@@ -60,7 +60,7 @@ everywhere it is needed can be registered for injection in a very easy way.
 
 However, it is recommended to use the modules for registering the bindings - as shown below.
 
-## Register module classes or instances
+## Register module
 
 The factory can be defined in two ways:
 * The module objects can be registered to factories
@@ -68,8 +68,8 @@ The factory can be defined in two ways:
 
 ### Registering module objects
 
-The module is first instantiated and then added registered to the factory.
-Single particular module can only be registered to the single factory.
+The module cane be first instantiated and then registered to the factory.
+Single particular module can only be registered to one factory.
 
 ```java
 public class Main {
@@ -82,10 +82,10 @@ public class Main {
 
 ### Adding module classes
 
-The module class is added to the factory. This defines the basic factory modules.
+The module class is added to the factory. This defines the basic factory modules before its instantiations.
 
 When the factory is instantiated, all added module classes are automatically instantiated
-too, so every factory instance has the same set of module objects.
+too, so every created factory instance has its own and the same set of module objects.
 
 ```java
 public class Main {
@@ -107,13 +107,13 @@ public class Service {
 }
 ```
 
-The injected factory is exactly that instance which was used for the injection.
-So no factory clash and multiple factories are still supported.
+The injected factory is exactly that one instance which was used for the injection.
+So no factory clash and multiple factories will work as expected.
 
 ## Merging factories
 
 More complex projects can easily consist of multiple independent libraries delivered
-without the source code.
+without the source code, each of them setting up its own factory (adding its module classes).
 
 To be able to use it effectively, the multiple factories can be merged into one other
 factory which then serves instances of all former (merged) factories.
