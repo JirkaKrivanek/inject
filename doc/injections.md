@@ -123,7 +123,7 @@ class MyModule extends Module
 }
 ```
 
-**Note:**The named annotations can also be placed with the fields and providers.
+**Note:** The named annotations can also be placed with the fields and providers.
 
 ### Other annotations
 
@@ -166,4 +166,4 @@ class MyModule extends Module
 }
 ```
 
-**Note:**The other annotations can also be placed with the fields and providers.
+**Note:** The other annotations can also be placed with the fields and providers.

@@ -68,7 +68,7 @@ class MyModule extends Module
 }
 ```
 
-**Note:**The provided objects are **NOT** automatically injected with field and method dependencies!
+**Note:** The provided objects are **NOT** automatically injected with field and method dependencies!
 
 Use `Factory#inject()` to inject it manually if this is what you need:
 

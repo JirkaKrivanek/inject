@@ -14,7 +14,7 @@ public class Main {
 }
 ```
 
-**Note:**Singleton is factory wide
+**Note:** Singleton is factory wide
 
 The singleton instance is actually single only within one factory instance.
 In other words, each factory has its own set of singletons.

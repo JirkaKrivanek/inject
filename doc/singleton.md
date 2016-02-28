@@ -2,7 +2,7 @@
 
 The objects can be marked as singleton to ensure that only one instance is created.
 
-**Note:**The singleton is factory wide - so each factory instance has its own set of singletons.
+**Note:** The singleton is factory wide - so each factory instance has its own set of singletons.
 
 The singleton can be created multiple ways:
 * Using the `@Singleton` annotation on
@@ -10,7 +10,7 @@ The singleton can be created multiple ways:
   * Or implementation
 * Forcing it on the binding definition
 
-**Note:**The single instance will be ensured if at least one method (above) is used for that binding.
+**Note:** The single instance will be ensured if at least one method (above) is used for that binding.
 
 ## Annotating interface
 
