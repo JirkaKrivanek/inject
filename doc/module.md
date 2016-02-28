@@ -66,6 +66,21 @@ class MyModule extends Module
 }
 ```
 
+**Note:**The provided objects are **NOT** automatically injected with field and method dependencies!
+
+Use `Factory#inject()` to inject it manually if this is what you need:
+
+```java
+class MyModule extends Module
+{
+    @Provides User createUser() {
+        final User user = new UserImpl();
+        getFactory().inject(user);
+        return user;
+    }
+}
+```
+
 ### Annotated bindings in any other objects
 
 ```java
@@ -85,7 +100,24 @@ class MyModule extends Module
 }
 ```
 
-**Note:** The provider is also subject of injection when being registered to the factory.
+**Note 1:** The provider is also subject of injection when being registered to the factory.
+
+**Note 2:**As with the module providers, also here the provided objects are **NOT** automatically injected with field and method dependencies!
+
+Use `Factory#inject()` to inject it manually if this is what you need (note that factory can be injected too):
+
+```java
+class MyProviders
+{
+    @Inject private Factory mFactory;
+
+    @Provides User createUser() {
+        final User user = new UserImpl();
+        mFactory.inject(user);
+        return user;
+    }
+}
+```
 
 ## Multiple modules
 
