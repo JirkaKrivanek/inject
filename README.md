@@ -1,19 +1,7 @@
-# Inject 1.0
+# Inject
 
 Yet another dependency injection using reflection.
 
-## Documentation
+For more details, please navigate here:
 
-* [Basic concept](doc/basicConcept.md)
-* Features
-  * [Factory](doc/factory.md)
-  * [Module](doc/module.md)
-  * [Injections](doc/injections.md)
-  * [Singleton](doc/singleton.md)
-  * [Mocking](doc/mocking.md)
-  * [Obfuscation](doc/obfuscation.md)
-* [JavaDoc](doc/JavaDoc/index.html)
-
-## TODOs
-
-- [ ] Merging factories to support multiple libraries from within one factory
+http://jirkakrivanek.github.io/inject
