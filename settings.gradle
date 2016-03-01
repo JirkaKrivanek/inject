@@ -1,4 +1,5 @@
 rootProject.name = 'KkInject'
 
-include ':core', ':testsdk'
+include ':core'
+include ':testsdk'
 include ':android'
